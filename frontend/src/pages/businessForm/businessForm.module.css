@@ -1,82 +1,63 @@
-/* BusinessForm.module.css */
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  font-weight: 500;
-  color: #374151; /* Tailwind's gray-700 */
-  margin-bottom: 0.375rem;
+  gap: 16px;
 }
 
 .input {
-  height: 3rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
-  padding: 0 0.75rem;
-  transition: border 0.2s, box-shadow 0.2s;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
 .input:focus {
-  outline: none;
-  border-color: #0d9488;
-  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+  border-color: #00a884;
 }
 
-.errorInput {
-  border-color: #ef4444 !important; /* Tailwind's red-500 */
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
-}
-
-.errorText {
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #ef4444;
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
-.errorIcon {
-  flex-shrink: 0;
-}
-
-.hashtagWrapper {
-  position: relative;
-}
-
-.hash {
-  position: absolute;
-  top: 50%;
-  left: 0.875rem;
-  transform: translateY(-50%);
-  color: #6b7280; /* Tailwind's gray-500 */
-  pointer-events: none;
-}
-
-.hashtagInput {
-  padding-left: 2rem;
-}
-
-.submitBtn {
-  height: 3rem;
+.button {
+  margin-top: 16px;
+  padding: 12px;
+  font-size: 16px;
   background-color: #0d9488;
   color: white;
-  font-weight: 500;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.submitBtn:hover {
-  background-color: #0f766e;
+.button:hover {
+  background-color: #08b394;
+}
+
+.footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #999;
 }

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import styles from "./BusinessForm.module.css";
 import { useNavigate } from "react-router-dom";
-import styles from "./businessForm.module.css"; // Update with actual path
-import { AlertCircle } from "lucide-react";
-
-export default function BusinessForm() {
+import Navbar from "./../../components/navbar/navbar";
+import Footer from "./../../components/footer/footer";
+import { useDispatch } from "react-redux";
+import { submitBusinessForm } from "../../store/businessForm.slice";
+const BusinessForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     businessName: "",
     industry: "",
@@ -14,110 +17,93 @@ export default function BusinessForm() {
     brandTone: "",
   });
 
-  const [errors, setErrors] = useState({
-    businessName: false,
-    industry: false,
-    instagramHashtag: false,
-    targetAudience: false,
-    marketingGoal: false,
-    brandTone: false,
-  });
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        name === "instagramHashtag" && value.startsWith("#")
-          ? value.substring(1)
-          : value,
-    }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: false }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {
-      businessName: !formData.businessName.trim(),
-      industry: !formData.industry.trim(),
-      instagramHashtag: !formData.instagramHashtag.trim(),
-      targetAudience: !formData.targetAudience.trim(),
-      marketingGoal: !formData.marketingGoal.trim(),
-      brandTone: !formData.brandTone.trim(),
-    };
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(Boolean);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      alert("Form submitted successfully!");
-      // navigate("/dashboard");
+
+    if (
+      !formData.businessName ||
+      !formData.industry ||
+      !formData.instagramHashtag ||
+      !formData.targetAudience ||
+      !formData.marketingGoal ||
+      !formData.brandTone
+    ) {
+      alert("Please fill in all fields.");
+      return;
     }
+    dispatch(submitBusinessForm(formData));
   };
 
-  const renderInput = (id, label, placeholder) => (
-    <div className={styles.inputGroup}>
-      <label htmlFor={id} className={styles.label}>
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        value={formData[id]}
-        onChange={handleChange}
-        placeholder={placeholder}
-        aria-invalid={errors[id]}
-      />
-      {errors[id] && (
-        <p className={styles.errorText}>
-          <AlertCircle size={16} className={styles.errorIcon} /> {label} is
-          required
-        </p>
-      )}
-    </div>
-  );
-
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      {renderInput("businessName", "Business Name", "Enter your business name")}
-      {renderInput("industry", "Industry", "e.g., makeup, construction")}
-      <div className={styles.inputGroup}>
-        <label htmlFor="instagramHashtag" className={styles.label}>
-          Main Instagram Hashtag
-        </label>
-        <div className={styles.hashtagWrapper}>
-          <span className={styles.hash}>#</span>
+    <>
+      <Navbar />
+      <div className={styles.container}>
+        <h1 className={styles.title}>Business Information</h1>
+        <p className={styles.subtitle}>
+          Tell us about your business to help us create personalized content for
+          you.
+        </p>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
-            id="instagramHashtag"
+            type="text"
+            name="businessName"
+            placeholder="Enter your business name"
+            value={formData.businessName}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="industry"
+            placeholder="e.g., makeup, construction"
+            value={formData.industry}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
             name="instagramHashtag"
+            placeholder="# e.g., makeup"
             value={formData.instagramHashtag}
             onChange={handleChange}
-            placeholder="e.g., makeup"
-            aria-invalid={errors.instagramHashtag}
+            className={styles.input}
           />
-        </div>
-        {errors.instagramHashtag && (
-          <p className={styles.errorText}>
-            <AlertCircle size={16} className={styles.errorIcon} /> Instagram
-            hashtag is required
-          </p>
-        )}
+          <input
+            type="text"
+            name="targetAudience"
+            placeholder="e.g., Gen Z women"
+            value={formData.targetAudience}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="marketingGoal"
+            placeholder="e.g., engagement, leads"
+            value={formData.marketingGoal}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="brandTone"
+            placeholder="e.g., fun, professional"
+            value={formData.brandTone}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <button type="submit" className="mainButton">
+            Continue
+          </button>
+        </form>
       </div>
-      {renderInput("targetAudience", "Target Audience", "e.g., Gen Z women")}
-      {renderInput(
-        "marketingGoal",
-        "Marketing Goal",
-        "e.g., engagement, leads"
-      )}
-      {renderInput("brandTone", "Brand Tone", "e.g., fun, professional")}
-      <button type="submit" className={styles.submitBtn}>
-        Continue
-      </button>
-    </form>
+      <Footer />
+    </>
   );
-}
+};
+
+export default BusinessForm;

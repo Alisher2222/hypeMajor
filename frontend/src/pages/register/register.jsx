@@ -28,7 +28,7 @@ export default function Register() {
 
     dispatch(register(user));
     if (!error) {
-      navigate("/");
+      navigate("/businessForm");
     }
   };
 
@@ -106,8 +106,6 @@ export default function Register() {
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
             </div>
-
-            {error && <p className={styles.error}>{error}</p>}
 
             <button
               type="submit"
