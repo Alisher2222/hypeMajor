@@ -27,9 +27,7 @@ export default function Register() {
     }
 
     dispatch(register(user));
-    if (!error) {
-      navigate("/businessForm");
-    }
+    setTimeout(() => navigate("/businessForm"), 1000);
   };
 
   return (

@@ -10,8 +10,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout()).unwrap(); // дожидаемся завершения logout
-      navigate("/"); // редирект на главную после выхода
+      await dispatch(logout()).unwrap();
+      navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -19,15 +19,13 @@ export default function Navbar() {
 
   return (
     <nav className={styles.container}>
-      <h1 className={styles.logo}>HypeMajor</h1>
+      <Link to="/" className="link">
+        <h1 className={styles.logo}>HypeMajor</h1>
+      </Link>
       <div className={styles.links}>
-        <Link to="/" className="link">
-          Home
+        <Link to="/suggestionsPage" className="link">
+          Suggestions
         </Link>
-        <a href="#howitWorks" className="link">
-          How it works
-        </a>
-
         {!token ? (
           <>
             <Link to="/signIn" className="link">
@@ -38,9 +36,14 @@ export default function Navbar() {
             </Link>
           </>
         ) : (
-          <Link onClick={handleLogout} className="link">
-            Logout
-          </Link>
+          <>
+            <Link className="link" to="/profile">
+              Profile
+            </Link>
+            <Link onClick={handleLogout} className="link">
+              Logout
+            </Link>
+          </>
         )}
       </div>
     </nav>

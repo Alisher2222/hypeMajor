@@ -4,6 +4,9 @@ import Register from "./pages/register/register";
 import SignIn from "./pages/signIn/signIn";
 import BusinessForm from "./pages/businessForm/businessForm";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TrendPage from "./pages/trendPage/trendPage";
+import SuggestionPage from "./pages/suggestionsPage/suggestionsPage";
+import Profile from "./pages/profile/profile";
 
 export default function App() {
   return (
@@ -17,6 +20,30 @@ export default function App() {
           element={
             <ProtectedRoute>
               <BusinessForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/suggestionsPage"
+          element={
+            <ProtectedRoute>
+              <SuggestionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/trendPage/:id"
+          element={
+            <ProtectedRoute>
+              <TrendPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

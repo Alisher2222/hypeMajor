@@ -45,7 +45,7 @@ export const logout = createAsyncThunk(
     try {
       const token = getState().auth.token;
       const response = await API.post(
-        "/logout",
+        "/auth/logout",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
