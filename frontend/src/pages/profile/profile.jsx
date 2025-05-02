@@ -10,19 +10,24 @@ import {
   Target,
   MessageSquare,
   Building,
+  AlarmClock,
 } from "lucide-react";
 import Navbar from "../../components/navbar/navbar";
 import styles from "./profile.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { scheduleEmail } from "../../store/notification.slice";
+import { fetchUserBusinesses } from "../../store/businessForm.slice";
 
 export default function Profile() {
+  const [interval, setInterval] = useState(0);
   const personal = useSelector((state) => state.auth.user);
   const business = useSelector((state) => state.businessForm);
-
+  const notificationStatus = useSelector((state) => state.notification.status);
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     personal: {
-      firstName: "",
-      lastName: "",
+      name: "",
+      surname: "",
       email: "",
       avatarUrl: "/placeholder.svg?height=100&width=100",
     },
@@ -37,11 +42,17 @@ export default function Profile() {
   });
 
   useEffect(() => {
+    if (personal.id) {
+      dispatch(fetchUserBusinesses({ userId: personal.id }));
+    }
+  }, [personal]);
+
+  useEffect(() => {
     if (personal && business) {
-      setUserData({
+      setUserData((prev) => ({
         personal: {
-          firstName: personal.firstName || "",
-          lastName: personal.lastName || "",
+          name: personal.name || "",
+          surname: personal.surname || "",
           email: personal.email || "",
           avatarUrl:
             personal.avatarUrl || "/placeholder.svg?height=100&width=100",
@@ -54,9 +65,19 @@ export default function Profile() {
           marketingGoal: business.marketingGoal || "",
           brandTone: business.brandTone || "",
         },
-      });
+      }));
     }
   }, [personal, business]);
+
+  const handleSchedule = () => {
+    dispatch(
+      scheduleEmail({
+        email: personal.email,
+        hashtag: business.instagramHashtag,
+        interval: parseInt(interval),
+      })
+    );
+  };
 
   return (
     <>
@@ -66,13 +87,13 @@ export default function Profile() {
           <div className={styles.avatarWrapper}>
             <img
               src={userData.personal.avatarUrl}
-              alt={`${userData.personal.firstName} ${userData.personal.lastName}`}
+              alt={`${userData.personal.name} ${userData.personal.surname}`}
               className={styles.avatar}
             />
           </div>
           <div className={styles.userInfo}>
             <h1 className={styles.userName}>
-              {userData.personal.firstName} {userData.personal.lastName}
+              {userData.personal.name} {userData.personal.surname}
             </h1>
             <p className={styles.businessName}>
               {userData.business.businessName}
@@ -94,14 +115,14 @@ export default function Profile() {
                 <User className={styles.icon} />
                 <div>
                   <p className={styles.label}>First Name</p>
-                  <p className={styles.value}>{userData.personal.firstName}</p>
+                  <p className={styles.value}>{userData.personal.name}</p>
                 </div>
               </div>
               <div className={styles.infoRow}>
                 <User className={styles.icon} />
                 <div>
                   <p className={styles.label}>Last Name</p>
-                  <p className={styles.value}>{userData.personal.lastName}</p>
+                  <p className={styles.value}>{userData.personal.surname}</p>
                 </div>
               </div>
               <div className={styles.infoRow}>
@@ -170,6 +191,30 @@ export default function Profile() {
                   <p className={styles.value}>{userData.business.brandTone}</p>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Sending Interval</h2>
+            </div>
+            <hr className={styles.separator} />
+            <div className={styles.row}>
+              <AlarmClock size={48} color="#0d9488" />
+              <input
+                type="number"
+                id="interval"
+                placeholder="Minutes"
+                className={styles.input}
+                value={interval}
+                onChange={(e) => setInterval(Number(e.target.value))}
+              />
+              <button
+                className={styles.secondaryButton}
+                onClick={handleSchedule}
+                disabled={notificationStatus === "loading"}
+              >
+                {notificationStatus === "loading" ? "Setting..." : "Set"}
+              </button>
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import styles from "./SignIn.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { login } from "../../store/auth.slice";
+import { fetchUserBusinesses } from "../../store/businessForm.slice";
 
 export default function SignIn() {
   const [user, setUser] = useState({
@@ -13,6 +14,7 @@ export default function SignIn() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth?.user?.id);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,7 +26,10 @@ export default function SignIn() {
 
     try {
       await dispatch(login(user)).unwrap();
-      navigate("/");
+      setTimeout(() => {
+        dispatch(fetchUserBusinesses({ userId })).unwrap();
+        navigate("/");
+      }, 1000);
     } catch (err) {
       alert(err?.message || "Login failed");
     }

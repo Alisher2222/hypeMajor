@@ -4,7 +4,7 @@ import styles from "./ContentFormatFilter.module.css";
 export default function ContentFormatFilter({ active, setActive }) {
   const filters = [
     { id: "all", label: "All", icon: null },
-    { id: "post", label: "Instagram", icon: Instagram },
+    { id: "instagram", label: "instagram", icon: Instagram },
     { id: "tiktok", label: "TikTok", icon: Music },
   ];
 

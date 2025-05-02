@@ -18,9 +18,9 @@ export default function TrendPage() {
   if (!trend) return <div className={styles.notFound}>Trend not found</div>;
 
   const getTikTokEmbedUrl = (url) => {
+    if (!url || typeof url !== "string") return null;
     const match = url.match(/video\/(\d+)/);
-    if (!match) return null;
-    return `https://www.tiktok.com/embed/${match[1]}`;
+    return match ? `https://www.tiktok.com/embed/${match[1]}` : null;
   };
 
   return (
@@ -37,10 +37,10 @@ export default function TrendPage() {
       <main className={styles.mainContent}>
         <div className={styles.cardWrapper}>
           <div className={styles.imageWrapper}>
-            {trend.videoUrl ? (
+            {trend.image ? (
               <div className={styles.videoWrapper}>
                 <iframe
-                  src={getTikTokEmbedUrl(trend.videoUrl)}
+                  src={getTikTokEmbedUrl(trend.image)}
                   width="100%"
                   height="480"
                   allow="autoplay; encrypted-media"

@@ -142,3 +142,21 @@
 .viewMore:hover {
   background-color: #e6f0ff;
 }
+
+.instagramIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 250px;
+  background-color: #fafafa; /* можно заменить на другой фон */
+  border-radius: 12px;
+  font-size: 64px;
+  color: #e1306c; /* фирменный цвет Instagram */
+}
+
+.instagramIcon svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.9;
+}

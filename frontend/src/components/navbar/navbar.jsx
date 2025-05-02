@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/auth.slice";
+import { store } from "../../store/store";
 import styles from "./navbar.module.css";
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
+      store.dispatch({ type: "RESET_APP" });
       navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
@@ -37,6 +39,9 @@ export default function Navbar() {
           </>
         ) : (
           <>
+            <Link to="/progress" className="link">
+              Progress
+            </Link>
             <Link className="link" to="/profile">
               Profile
             </Link>

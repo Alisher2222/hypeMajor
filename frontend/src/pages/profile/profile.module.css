@@ -130,3 +130,17 @@
   font-weight: 500;
   color: #1f2937;
 }
+
+.input {
+  height: 3.5rem;
+  font-size: 1.125rem;
+  padding: 0 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
